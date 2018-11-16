@@ -1,11 +1,14 @@
 <template>
 
 <div>
+    <modal
+      v-show="isModalVisible"
+      @close="closeModal"
+    />
       <h2>DashBoard Pasien</h2>
 
       <form @submit.prevent="Proses_daftar">
       <h3>Testing Daftar</h3>
-
 
       <div class="field">
           <label>Tanggal</label>
@@ -28,8 +31,15 @@
 
 </template>
 <script>
+
+import modal from '@/components/modal.vue';
+
+
 export default {
       name:'dashboard_pasien',
+          components: {
+                  modal,
+          },
       data(){
             return{
                   infodokter:{
@@ -37,37 +47,46 @@ export default {
                      user_id:'',
                      specialist:''
                   },
-                  user_info:{
-                        name:'',/** dari Jwt */
-                        user_id:''
-                  },
                   order_info:{
                         date:'',
                         time:'',
                         message:'',
                   },
-                  validating:false
+                  user_info:{
+                        name:'',/** dari Jwt */
+                        user_id:''
+                  },
+                  validating:false,
+                  isModalVisible: false,
             }
         },
         methods:{
               Proses_daftar(){
                     var request=this.$parent.$user;
                     var Get_user=this.$parent.$auth;
-
+                    var decode_data=this.$jwt.decode(Get_user.getToken(),Get_user.getKey());
                     
-                    this.user_info.name.user_id=Get_user;
-
-                    request.Daftar_jadwal(this.infodokter,this.user_info,this.order_info)
-                        .then(function (response) {
-                        console.log(response);
+                    this.user_info.name=decode_data.name;
+                    this.user_info.user_id=decode_data.user_id;
+                        this.isModalVisible = true;
+                  //   request.Daftar_jadwal(this.infodokter,this.user_info,this.order_info)
+                  //       .then(function (response) {
+                  //       console.log(response);
                               
                         
-                         })
-                         .catch(function(error){
+                  //        })
+                  //        .catch(function(error){
                         
                               
-                        });
+                  //       });
               }
+      ,showModal() {
+        this.isModalVisible = true;
+      },
+      closeModal() {
+        this.isModalVisible = false;
+      }
+
         }
       
 }

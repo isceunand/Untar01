@@ -3,15 +3,21 @@ export default function (Vue){
         testConnect(){
             console.log('From Auth')
         },
-        setToken (token){
+        setToken (token,key){
             localStorage.setItem('token',token);
+            localStorage.setItem('key',key);
         },
         getToken(){
             var token =localStorage.getItem('token');
             return token;
         },
-        destroyToken(){
+        getKey(){
+            var key =localStorage.getItem('key');
+            return key;
+        },
+        destroyData(){
             localStorage.removeItem('token');
+            localStorage.removeItem('key');
         }
     }
     Object.defineProperties(Vue.prototype,{

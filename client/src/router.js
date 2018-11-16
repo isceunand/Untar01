@@ -70,33 +70,50 @@ let router =  new Router({
 })
 
 router.beforeEach((to, from, next) => {
-   
-  //Testing
-  console.log(Vue.$jwt.decode('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.1KeurV34xtT2zRmiCZLFzOk_WCHWIqOedt4xV0bbLnA','aaaaa'))
- 
-  var token =localStorage.getItem('token');
   
+  var token =localStorage.getItem('token');
+  var key=localStorage.getItem('key');
+
+  if(token !== null && key !== null){//if token exist
+
+  //Testing
+  var Gettoken=Vue.$jwt.decode(token,key)
+  
+  
+    var Status=Gettoken.status;
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-
-      if(to.matched.some(record => record.meta.is_patient) && token === "pasien")
+    console.log(Gettoken.status)
+      if(to.matched.some(record => record.meta.is_patient) && Status === "pasien")
       {
         next();
       }
-      else if(to.matched.some(record => record.meta.is_doctor) && token === "dokter")
+      else if(to.matched.some(record => record.meta.is_doctor) && Status === "dokter")
       {
         next();
       }else{
         next({path: '/login'});
       }
-  } else if( token === "pasien" && to.matched.some(record => record.meta.guest)){
+
+  } else if( Status === "pasien" && to.matched.some(record => record.meta.guest)){
       next({path: '/pasien/dashboard'});
-   }else if( token === "dokter" && to.matched.some(record => record.meta.guest)){
+   }else if( Status === "dokter" && to.matched.some(record => record.meta.guest)){
         next({path: '/dokter/dashboard'});
   }else{
-    next() // make sure to always call next()!
+    //jika tidak ada page??
+
+    next({path: '/login'}); // make sure to always call next()!
+  }
+
+  }else{
+
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      next({path: '/login'});
+    }else{
+      next();
+    }
   }
 
 });
