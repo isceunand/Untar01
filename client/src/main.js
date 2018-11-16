@@ -13,8 +13,8 @@ Vue.use(auth);
 Vue.use(user_service);
 
 window.axios = axios
-// axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com/todos/1'
-axios.defaults.baseURL = 'https://me.123'
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com/todos/1'
+// axios.defaults.baseURL = 'https://me.123'
 
 var bus = new Vue();
 

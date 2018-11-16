@@ -1,5 +1,9 @@
 <template>
-<h2>DashBoard Dokter</h2>
+
+<div>
+<h1>DashBoard Dokter</h1>
+<button @click="Logout">Logout</button>
+</div>
 </template>
 
 
@@ -9,6 +13,13 @@ export default {
       data(){
             return{
                   }
+      },
+      methods:{
+            Logout(){
+                  var Auth=this.$parent.$auth;
+                  Auth.destroyToken();
+                  this.$router.push('/');
+            }
       }
 }
 </script>

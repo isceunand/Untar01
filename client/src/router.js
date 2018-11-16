@@ -33,29 +33,29 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   //Testing
-
-  var token = localStorage.getItem("token");
-  console.log(token);
+  
+  var token =localStorage.getItem('token') ;
+ 
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-
-    if (
-      to.matched.some(record => record.meta.is_patient) &&
-      token === "pasien"
-    ) {
-      next();
-    } else if (
-      to.matched.some(record => record.meta.is_doctor) &&
-      token === "dokter"
-    ) {
-      next();
-    } else {
-      next({ path: "/login" });
-    }
-  } else {
-    next(); // make sure to always call next()!
+      if(to.matched.some(record => record.meta.is_patient) && token === "pasien")
+      {
+        next();
+      }
+      else if(to.matched.some(record => record.meta.is_doctor) && token === "dokter")
+      {
+        next();
+      }else{
+        next({path: '/login'});
+      }
+  } else if( token === "pasien" && to.matched.some(record => record.meta.guest)){
+      next({path: '/Pasien/dashboard'});
+   }else if( token === "dokter" && to.matched.some(record => record.meta.guest)){
+        next({path: '/Dokter/dashboard'});
+  }else{
+    next() // make sure to always call next()!
   }
 });
 
