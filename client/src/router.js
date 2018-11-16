@@ -71,7 +71,7 @@ router.beforeEach((to, from, next) => {
   //Testing
   
   var token =localStorage.getItem('token') ;
-  console.log(token);
+ 
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
@@ -85,12 +85,13 @@ router.beforeEach((to, from, next) => {
       {
         next();
       }else{
-
         next({path: '/login'});
-      
       }
-
-  } else {
+  } else if( token === "pasien" && to.matched.some(record => record.meta.guest)){
+      next({path: '/Pasien/dashboard'});
+   }else if( token === "dokter" && to.matched.some(record => record.meta.guest)){
+        next({path: '/Dokter/dashboard'});
+  }else{
     next() // make sure to always call next()!
   }
 
