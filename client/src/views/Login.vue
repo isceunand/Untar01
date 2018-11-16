@@ -37,9 +37,7 @@
  
 export default {
       name:'login',
-    //   components: {
-    //         Notification,
-    //     },
+
       data(){
             return{
                    input:{

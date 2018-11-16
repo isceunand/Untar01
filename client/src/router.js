@@ -1,20 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 
 /* Custom Route*/
 import Home from './views/Home.vue'
 import Dashboard_pasien from './views/Dashboard_Pasien.vue'
 import Dashboard_dokter from './views/Dashboard_Dokter.vue'
 
-
+import auth from './libraries/auth.js'
 
 /** Auth Router */
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 
 Vue.use(Router)
-
+Vue.use(auth);
 
 let router =  new Router({
   hashbang: false,
@@ -70,7 +69,9 @@ let router =  new Router({
 router.beforeEach((to, from, next) => {
    
   //Testing
-  var token =this.$parent.$auth.getToken();
+  
+  var token =localStorage.getItem('token') ;
+  console.log(token);
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
@@ -89,7 +90,7 @@ router.beforeEach((to, from, next) => {
       
       }
 
-  } else  {
+  } else {
     next() // make sure to always call next()!
   }
 
