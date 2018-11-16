@@ -9,15 +9,11 @@
 </template>
 
 <script>
-  // var pusher = new Pusher('448b3467356a673a5866', {
-  //     cluster: 'ap1',
-  //     forceTLS: true
-  //   });
-
-  //   var channel = pusher.subscribe('my-channel');
-  //   channel.bind('my-event', function(data) {
-  //     alert(JSON.stringify(data));
-  //   });
+  export default {
+    data() {
+      name: ''
+    }
+  }
 </script>
 
 <style lang="scss">
