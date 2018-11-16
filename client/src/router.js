@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VueJWT from 'vuejs-jwt'
+
 
 /* Custom Route*/
 import Home from './views/Home.vue'
@@ -14,6 +16,7 @@ import Register from './views/Register.vue'
 
 Vue.use(Router)
 Vue.use(auth);
+Vue.use(VueJWT);
 
 let router =  new Router({
   hashbang: false,
@@ -44,7 +47,7 @@ let router =  new Router({
       }
     },
     {
-      path:'/Pasien/dashboard',
+      path:'/pasien/dashboard',
       name:'Patiendashboard',
       component:Dashboard_pasien,
       meta: { 
@@ -53,7 +56,7 @@ let router =  new Router({
       }
     },
     {
-      path:'/Dokter/dashboard',
+      path:'/dokter/dashboard',
       name:'Dokterdashboard',
       component:Dashboard_dokter,
       meta: { 
@@ -69,9 +72,10 @@ let router =  new Router({
 router.beforeEach((to, from, next) => {
    
   //Testing
-  
-  var token =localStorage.getItem('token') ;
+  console.log(Vue.$jwt.decode('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.1KeurV34xtT2zRmiCZLFzOk_WCHWIqOedt4xV0bbLnA','aaaaa'))
  
+  var token =localStorage.getItem('token');
+  
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
@@ -88,9 +92,9 @@ router.beforeEach((to, from, next) => {
         next({path: '/login'});
       }
   } else if( token === "pasien" && to.matched.some(record => record.meta.guest)){
-      next({path: '/Pasien/dashboard'});
+      next({path: '/pasien/dashboard'});
    }else if( token === "dokter" && to.matched.some(record => record.meta.guest)){
-        next({path: '/Dokter/dashboard'});
+        next({path: '/dokter/dashboard'});
   }else{
     next() // make sure to always call next()!
   }

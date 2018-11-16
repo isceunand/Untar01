@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import VueJWT from 'vuejs-jwt'
 
 import App from './App.vue'
 import router from './router'
@@ -11,6 +12,8 @@ import user_service from './libraries/service/user.service.js'
 
 Vue.use(auth);
 Vue.use(user_service);
+Vue.use(VueJWT);
+
 
 window.axios = axios
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com/todos/1'

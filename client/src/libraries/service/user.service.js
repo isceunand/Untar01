@@ -4,10 +4,13 @@ export default function (Vue){
             console.log('From Auth')
         },
         Reg_user(){
-            return axios.get('/');
+            return axios.post('/');
         },
-        Login_user(){
-            return axios.get('/');
+        Login_user(email,password){
+            return axios.post('/',{email:email,password:password});
+        },
+        Daftar_jadwal(infodokter,user_info,order_info){
+            return axios.post('/',{info_dokter:infodokter,info_user:user_info,info_order:order_info});
         }
     }
     Object.defineProperties(Vue.prototype,{

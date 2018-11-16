@@ -50,7 +50,7 @@ export default {
                    notification: {
                     message: '',
                     type: '',
-                }
+                    }
                   }
         },
         methods:{
@@ -66,7 +66,7 @@ export default {
                   .then(function (response) {
                         console.log(response);
                         //token jwt
-                        auth.setToken('dokter');
+                        auth.setToken('pasien');
                         
                    })
                    .catch(function(error){
