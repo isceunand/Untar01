@@ -2,6 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 
+/* Custom Route*/
+import Home from './views/Home.vue'
+import Dashboard_pasien from './views/Dashboard_Pasien.vue'
+import Dashboard_dokter from './views/Dashboard_Dokter.vue'
+
+
+
+/** Auth Router */
+import Login from './views/Login.vue'
+import Register from './views/Register.vue'
+
 Vue.use(Router)
 
 
@@ -51,14 +62,7 @@ let router =  new Router({
           is_doctor:true
       }
     },
-    {
-      path:'/Pasien/search',/** tambah parameter*/
-      name:'Search',
-      component:Search,
-      meta: { 
-           guest: true
-      }
-    },
+
 
   ]
 })
