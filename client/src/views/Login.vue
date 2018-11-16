@@ -50,7 +50,7 @@ export default {
                    notification: {
                     message: '',
                     type: '',
-                }
+                    }
                   }
         },
         methods:{
@@ -69,6 +69,7 @@ export default {
                         console.log(response.data.token, '<<<<<<<<<<<<<<')
                         localStorage.setItem('token', response.data.token)
                         auth.setToken(response.data.token);
+
                         
                    })
                    .catch(function(error){

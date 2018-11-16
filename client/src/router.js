@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VueJWT from 'vuejs-jwt'
+
 
 /* Custom Route*/
 import Home from './views/Home.vue'
@@ -14,6 +16,7 @@ import Register from './views/Register.vue'
 
 Vue.use(Router)
 Vue.use(auth);
+Vue.use(VueJWT);
 
 let router =  new Router({
   hashbang: false,
@@ -44,7 +47,7 @@ let router =  new Router({
       }
     },
     {
-      path:'/Pasien/dashboard',
+      path:'/pasien/dashboard',
       name:'Patiendashboard',
       component:Dashboard_pasien,
       meta: { 
@@ -53,7 +56,7 @@ let router =  new Router({
       }
     },
     {
-      path:'/Dokter/dashboard',
+      path:'/dokter/dashboard',
       name:'Dokterdashboard',
       component:Dashboard_dokter,
       meta: { 
@@ -67,32 +70,50 @@ let router =  new Router({
 })
 
 router.beforeEach((to, from, next) => {
-   
-  //Testing
   
-  var token =localStorage.getItem('token') ;
- 
+  var token =localStorage.getItem('token');
+  var key=localStorage.getItem('key');
+
+  if(token !== null && key !== null){//if token exist
+
+  //Testing
+  var Gettoken=Vue.$jwt.decode(token,key)
+  
+  
+    var Status=Gettoken.status;
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-
-      if(to.matched.some(record => record.meta.is_patient) && token === "pasien")
+    console.log(Gettoken.status)
+      if(to.matched.some(record => record.meta.is_patient) && Status === "pasien")
       {
         next();
       }
-      else if(to.matched.some(record => record.meta.is_doctor) && token === "dokter")
+      else if(to.matched.some(record => record.meta.is_doctor) && Status === "dokter")
       {
         next();
       }else{
         next({path: '/login'});
       }
-  } else if( token === "pasien" && to.matched.some(record => record.meta.guest)){
-      next({path: '/Pasien/dashboard'});
-   }else if( token === "dokter" && to.matched.some(record => record.meta.guest)){
-        next({path: '/Dokter/dashboard'});
+
+  } else if( Status === "pasien" && to.matched.some(record => record.meta.guest)){
+      next({path: '/pasien/dashboard'});
+   }else if( Status === "dokter" && to.matched.some(record => record.meta.guest)){
+        next({path: '/dokter/dashboard'});
   }else{
-    next() // make sure to always call next()!
+    //jika tidak ada page??
+
+    next({path: '/login'}); // make sure to always call next()!
+  }
+
+  }else{
+
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      next({path: '/login'});
+    }else{
+      next();
+    }
   }
 
 });
