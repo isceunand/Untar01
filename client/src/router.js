@@ -89,20 +89,8 @@ router.beforeEach((to, from, next) => {
       
       }
 
-  } else if( !(token === "pasien") || !(token === "dokter") ) {
+  } else  {
     next() // make sure to always call next()!
-  }else 
-  {
-    //jika (token === "pasien") || !(token === "dokter"
-
-    if(token === "pasien")
-    {
-      next({path: '/Pasien/dashboard'});
-    }
-    else if(token === "dokter")
-    {
-      next({path: '/Dokter/dashboard'});
-    }
   }
 
 });
