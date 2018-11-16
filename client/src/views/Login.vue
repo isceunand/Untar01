@@ -59,14 +59,16 @@ export default {
                 if(this.input.password !== "" && this.input.email !=="")
                 {
                 var auth=this.$parent.$auth
-                var request = this.$parent.$user.Login_user()
+                var request = this.$parent.$user.Login_user(this.input.email,this.input.password)
                 this.validating=true;
 
                 request
                   .then(function (response) {
                         console.log(response);
                         //token jwt
-                        auth.setToken('dokter');
+                        console.log(response.data.token, '<<<<<<<<<<<<<<')
+                        localStorage.setItem('token', response.data.token)
+                        auth.setToken(response.data.token);
                         
                    })
                    .catch(function(error){

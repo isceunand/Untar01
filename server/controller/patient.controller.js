@@ -52,28 +52,38 @@ module.exports = {
   },
 
   loginPatient: (req, res, next) => {
-    Patient.findOne({ email: req.body.email }).then(function(user) {
-      console.log(user, "<<<<<<<<<<<<<<<<<<<<<<<< user");
-      if (user === undefined) {
-        console.log("masuk sini anjing");
-        next();
-      }
+    Patient.findOne({ email: req.body.email })
+      .then(function(user) {
+        console.log(user, "<<<<<<<<<<<<<<<<<<<<<<<< user");
+        if (!user) {
+          console.log("masuk sini anjing");
+          next();
+        }
 
-      const hashedPassword = user.password;
-      console.log(hashedPassword, "<<<<<<<<<<< hashed password");
-      if (bcrypt.compareSync(req.body.password, hashedPassword)) {
-        var token = jwt.sign(
-          { email: user.email, id: user._id, role: "patient" },
-          "shhhhh"
-        );
-        console.log("testing");
-        console.log(token, "<<<<<<< dari controller patient");
-        res.status(200).json({
-          token: token,
-          id: user._id,
-          email: user.email
+        const hashedPassword = user.password;
+        console.log(hashedPassword, "<<<<<<<<<<< hashed password");
+        if (bcrypt.compareSync(req.body.password, hashedPassword)) {
+          var token = jwt.sign(
+            { email: user.email, id: user._id, role: "patient" },
+            "shhhhh"
+          );
+          console.log("testing");
+          console.log(token, "<<<<<<< dari controller patient");
+          res.status(200).json({
+            token: token,
+            id: user._id,
+            email: user.email
+          });
+        } else {
+          res.status(401).json({
+            message: "wrong password"
+          });
+        }
+      })
+      .catch(function(err) {
+        res.status(500).json({
+          message: "something went wrong"
         });
-      }
-    });
+      });
   }
 };

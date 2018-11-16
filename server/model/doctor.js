@@ -62,10 +62,6 @@ let doctorSchema = mongoose.Schema({
     ],
     required: true
   },
-  rating: {
-    type: Number,
-    default: 0
-  },
   service: {
     type: String,
     required: true
