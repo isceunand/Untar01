@@ -1,9 +1,24 @@
 import Vue from 'vue'
+import axios from 'axios'
+
 import App from './App.vue'
 import router from './router'
 import store from './store'
 
-Vue.config.productionTip = false
+
+import auth from './libraries/auth.js'
+import user_service from './libraries/service/user.service.js'
+
+Vue.use(auth);
+Vue.use(user_service);
+
+window.axios = axios
+// axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com/todos/1'
+axios.defaults.baseURL = 'https://me.123'
+
+var bus = new Vue();
+
+
 
 new Vue({
   router,
