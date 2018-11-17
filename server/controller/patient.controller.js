@@ -60,7 +60,23 @@ module.exports = {
           next();
         }
 
+        let randomNumber = Math.random() * 100;
+
+        function makeid() {
+          var text = "";
+          var possible =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+          for (var i = 0; i < 5; i++)
+            text += possible.charAt(
+              Math.floor(Math.random() * possible.length)
+            );
+
+          return text;
+        }
+
         const hashedPassword = user.password;
+        const pas_idrandom = randomNumber + "" + makeid();
         console.log(hashedPassword, "<<<<<<<<<<< hashed password");
         if (bcrypt.compareSync(req.body.password, hashedPassword)) {
           var token = jwt.sign(
@@ -72,7 +88,8 @@ module.exports = {
           res.status(200).json({
             token: token,
             id: user._id,
-            email: user.email
+            email: user.email,
+            pasien: pas_idrandom
           });
         } else {
           res.status(401).json({
